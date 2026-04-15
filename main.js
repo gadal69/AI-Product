@@ -27,10 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return 'color5';
   }
 
-  function generateLottoNumbers() {
-    generateBtn.disabled = true;
-    generateBtn.innerText = '추첨 중...';
-    
+  function generateOneSet() {
     const numbers = [];
     while (numbers.length < 6) {
       const randomNum = Math.floor(Math.random() * 45) + 1;
@@ -38,23 +35,36 @@ document.addEventListener('DOMContentLoaded', () => {
         numbers.push(randomNum);
       }
     }
-    numbers.sort((a, b) => a - b);
+    return numbers.sort((a, b) => a - b);
+  }
 
+  function generateLottoNumbers() {
+    generateBtn.disabled = true;
+    generateBtn.innerText = '추첨 중...';
+    
     numbersContainer.innerHTML = '';
 
-    numbers.forEach((num, index) => {
-      setTimeout(() => {
-        const ball = document.createElement('div');
-        ball.className = `ball ${getBallColor(num)}`;
-        ball.innerText = num;
-        numbersContainer.appendChild(ball);
+    for (let i = 0; i < 5; i++) {
+      const row = document.createElement('div');
+      row.className = 'numbers-row';
+      numbersContainer.appendChild(row);
 
-        if (index === 5) {
-          generateBtn.disabled = false;
-          generateBtn.innerText = '번호 생성하기';
-        }
-      }, index * 150);
-    });
+      const numbers = generateOneSet();
+      
+      numbers.forEach((num, index) => {
+        setTimeout(() => {
+          const ball = document.createElement('div');
+          ball.className = `ball ${getBallColor(num)}`;
+          ball.innerText = num;
+          row.appendChild(ball);
+
+          if (i === 4 && index === 5) {
+            generateBtn.disabled = false;
+            generateBtn.innerText = '번호 생성하기';
+          }
+        }, (i * 6 + index) * 100);
+      });
+    }
   }
 
   generateBtn.addEventListener('click', generateLottoNumbers);
