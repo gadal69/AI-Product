@@ -1,3 +1,25 @@
+:root {
+  --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  --container-bg: #ffffff;
+  --title-color: #1a2a3a;
+  --ball-placeholder: #f0f0f0;
+  --ball-placeholder-text: #ddd;
+  --container-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  --btn-bg: #1a2a3a;
+  --btn-text: #ffffff;
+}
+
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #1a2a3a 0%, #0f172a 100%);
+  --container-bg: #1e293b;
+  --title-color: #f8fafc;
+  --ball-placeholder: #334155;
+  --ball-placeholder-text: #475569;
+  --container-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  --btn-bg: #38bdf8;
+  --btn-text: #0f172a;
+}
+
 body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
   display: flex;
@@ -5,21 +27,44 @@ body {
   align-items: center;
   height: 100vh;
   margin: 0;
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  background: var(--bg-gradient);
+  transition: background 0.3s ease;
 }
 
 .container {
+  position: relative;
   text-align: center;
-  background: white;
+  background: var(--container-bg);
   padding: 4rem 2rem;
   border-radius: 40px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--container-shadow);
   max-width: 650px;
   width: 95%;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#theme-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+#theme-btn:hover {
+  transform: scale(1.1);
 }
 
 h1 {
-  color: #1a2a3a;
+  color: var(--title-color);
   margin-bottom: 3.5rem;
   font-size: 2.5rem;
   font-weight: 900;
@@ -43,12 +88,10 @@ h1 {
   justify-content: center;
   align-items: center;
   font-weight: 900;
-  font-size: 2.2rem; /* 훨씬 크게 변경 */
+  font-size: 2.2rem;
   color: white;
-  /* 글자 가독성을 위한 강한 그림자 및 테두리 효과 */
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   box-shadow: inset -6px -6px 12px rgba(0,0,0,0.2), 0 10px 20px rgba(0,0,0,0.15);
-  
   animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   opacity: 0;
   transform: scale(0.3);
@@ -62,8 +105,8 @@ h1 {
 }
 
 .ball.placeholder {
-  background-color: #f0f0f0;
-  color: #ddd;
+  background-color: var(--ball-placeholder);
+  color: var(--ball-placeholder-text);
   text-shadow: none;
   box-shadow: none;
   animation: none;
@@ -71,12 +114,11 @@ h1 {
   transform: scale(1);
 }
 
-/* 로또 번호별 색상 (고대비 버전) */
 .ball.color1 { background: radial-gradient(circle at 30% 30%, #ffcc00, #f39c12); border: 2px solid #e67e22; } 
 .ball.color2 { background: radial-gradient(circle at 30% 30%, #4db8ff, #2980b9); border: 2px solid #2471a3; } 
 .ball.color3 { background: radial-gradient(circle at 30% 30%, #ff5e5e, #c0392b); border: 2px solid #a93226; } 
 .ball.color4 { background: radial-gradient(circle at 30% 30%, #999999, #555555); border: 2px solid #444444; } 
-.ball.color5 { background: radial-gradient(circle at 30% 30%, #8bc34a, #2e7d32); border: 2px solid #1b5e20; } 
+.ball.color5 { background: radial-gradient(circle at 30% 30%, #8bc34a, #27ae60); border: 2px solid #1b5e20; } 
 
 #generate-btn {
   padding: 20px 60px;
@@ -84,21 +126,16 @@ h1 {
   font-weight: 800;
   border: none;
   border-radius: 60px;
-  background-color: #1a2a3a;
-  color: white;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 10px 25px rgba(26, 42, 58, 0.3);
 }
 
 #generate-btn:hover {
-  background-color: #2c3e50;
   transform: translateY(-5px) scale(1.05);
   box-shadow: 0 15px 35px rgba(26, 42, 58, 0.4);
-}
-
-#generate-btn:active {
-  transform: translateY(-2px) scale(1);
 }
 
 #generate-btn:disabled {

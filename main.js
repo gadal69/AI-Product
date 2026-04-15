@@ -1,6 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
   const generateBtn = document.getElementById('generate-btn');
   const numbersContainer = document.getElementById('lotto-numbers');
+  const themeBtn = document.getElementById('theme-btn');
+  const body = document.body;
+
+  // 테마 초기화
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  body.setAttribute('data-theme', savedTheme);
+  themeBtn.innerText = savedTheme === 'light' ? '🌙' : '☀️';
+
+  // 테마 토글 함수
+  themeBtn.addEventListener('click', () => {
+    const currentTheme = body.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    
+    body.setAttribute('data-theme', newTheme);
+    themeBtn.innerText = newTheme === 'light' ? '🌙' : '☀️';
+    localStorage.setItem('theme', newTheme);
+  });
 
   function getBallColor(number) {
     if (number <= 10) return 'color1';
@@ -11,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function generateLottoNumbers() {
-    // 버튼 비활성화 (생성 중 클릭 방지)
     generateBtn.disabled = true;
     generateBtn.innerText = '추첨 중...';
     
@@ -24,10 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     numbers.sort((a, b) => a - b);
 
-    // 기존 번호 삭제
     numbersContainer.innerHTML = '';
 
-    // 순차적으로 공 생성 (100ms 간격)
     numbers.forEach((num, index) => {
       setTimeout(() => {
         const ball = document.createElement('div');
@@ -35,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ball.innerText = num;
         numbersContainer.appendChild(ball);
 
-        // 마지막 공까지 다 나오면 버튼 복구
         if (index === 5) {
           generateBtn.disabled = false;
           generateBtn.innerText = '번호 생성하기';
