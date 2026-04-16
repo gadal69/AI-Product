@@ -96,6 +96,14 @@ h1 {
   gap: 10px;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.bonus-plus {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--title-color);
+  margin: 0 5px;
 }
 
 .ball {

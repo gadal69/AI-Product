@@ -35,7 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
         numbers.push(randomNum);
       }
     }
-    return numbers.sort((a, b) => a - b);
+    numbers.sort((a, b) => a - b);
+
+    let bonusNumber;
+    while (true) {
+      bonusNumber = Math.floor(Math.random() * 45) + 1;
+      if (!numbers.includes(bonusNumber)) {
+        break;
+      }
+    }
+    
+    return { numbers, bonusNumber };
   }
 
   function generateLottoNumbers() {
@@ -49,21 +59,35 @@ document.addEventListener('DOMContentLoaded', () => {
       row.className = 'numbers-row';
       numbersContainer.appendChild(row);
 
-      const numbers = generateOneSet();
+      const { numbers, bonusNumber } = generateOneSet();
       
+      // 메인 번호 6개 표시
       numbers.forEach((num, index) => {
         setTimeout(() => {
           const ball = document.createElement('div');
           ball.className = `ball ${getBallColor(num)}`;
           ball.innerText = num;
           row.appendChild(ball);
-
-          if (i === 4 && index === 5) {
-            generateBtn.disabled = false;
-            generateBtn.innerText = '번호 생성하기';
-          }
-        }, (i * 6 + index) * 100);
+        }, (i * 7 + index) * 100);
       });
+
+      // '+' 기호와 보너스 번호 표시
+      setTimeout(() => {
+        const plus = document.createElement('span');
+        plus.className = 'bonus-plus';
+        plus.innerText = '+';
+        row.appendChild(plus);
+
+        const bonusBall = document.createElement('div');
+        bonusBall.className = `ball ${getBallColor(bonusNumber)}`;
+        bonusBall.innerText = bonusNumber;
+        row.appendChild(bonusBall);
+
+        if (i === 4) {
+          generateBtn.disabled = false;
+          generateBtn.innerText = '번호 생성하기';
+        }
+      }, (i * 7 + 6) * 100);
     }
   }
 
